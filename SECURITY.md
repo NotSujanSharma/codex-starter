@@ -63,3 +63,8 @@ For security-relevant changes, require independent review and test:
 
 When evidence is insufficient, report the uncertainty and block security claims rather than inventing assurance.
 
+## Reporting a vulnerability
+
+Do not report suspected vulnerabilities in a public issue. Use the repository's private vulnerability reporting feature under **Security > Advisories** when available. If it is not enabled, contact the repository maintainer privately through a channel listed on their GitHub profile.
+
+Include the affected version or revision, impact, reproduction steps, and any suggested mitigation. Avoid including real secrets or sensitive user data in the report. Maintainers should acknowledge receipt, assess severity, coordinate a fix and disclosure, and credit the reporter when requested and appropriate.

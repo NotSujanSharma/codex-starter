@@ -1,0 +1,43 @@
+name: Bug report
+description: Report incorrect template, skill, agent, or validation behavior
+title: "[Bug]: "
+labels:
+  - bug
+body:
+  - type: markdown
+    attributes:
+      value: Thanks for reporting a reproducible problem. Do not include secrets or private data.
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem
+      description: What happened, and what did you expect instead?
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Reproduction
+      description: Include the request, relevant project state, and the smallest reproducible sequence.
+    validations:
+      required: true
+  - type: input
+    id: codex-version
+    attributes:
+      label: Codex version or surface
+      description: For example, desktop app, CLI version, or IDE extension.
+  - type: textarea
+    id: validation
+    attributes:
+      label: Validation output
+      description: Include concise output from make validate-template or another relevant check.
+  - type: checkboxes
+    id: terms
+    attributes:
+      label: Checklist
+      options:
+        - label: I searched existing issues.
+          required: true
+        - label: This report contains no secrets or private data.
+          required: true
+

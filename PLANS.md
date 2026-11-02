@@ -4,6 +4,8 @@ Use this standard for new projects, substantial features, ambiguous changes, cro
 
 The plan is a shared source of truth, not a prediction that must remain unchanged. It should be understandable by a new agent with repository access and no hidden conversation context.
 
+For an untouched starter or a new product idea, invoke the repository's `$project-kickoff` skill. The user answers questions in chat; the agent writes the resulting documents and plans.
+
 ## Planning sequence
 
 ### 1. Inspect before interviewing
@@ -12,7 +14,7 @@ Map the relevant repository structure, existing behavior, tests, documentation, 
 
 ### 2. Conduct material discovery
 
-Ask questions in one organized batch when possible. Cover only topics that can change the result:
+Ask two to five related questions, wait for the answers, summarize what is confirmed, and choose the next questions adaptively. Do not send the user a full questionnaire or ask them to complete Markdown files. Cover only topics that can change the result:
 
 - users, use cases, and desired outcome;
 - in-scope and out-of-scope behavior;
@@ -23,7 +25,7 @@ Ask questions in one organized batch when possible. Cover only topics that can c
 - performance, reliability, and operational expectations;
 - deployment, rollback, observability, and support needs.
 
-Do not ask the user for facts that repository inspection can establish. When answers expose a genuinely new decision, ask a narrow follow-up instead of restarting discovery.
+Do not ask the user for facts that repository inspection can establish. When the user is unsure, recommend a default and explain its main tradeoff. When answers expose a genuinely new decision, ask a narrow follow-up instead of restarting discovery.
 
 ### 3. Approve the feature brief
 
@@ -79,4 +81,3 @@ Integrate in dependency order. Complete the acceptance matrix, run validation, p
 ## When a plan may be skipped
 
 A formal plan may be skipped for a small, reversible, well-understood change with known validation and no architectural or security impact. The agent must still state assumptions, validate the result, and inspect the diff.
-

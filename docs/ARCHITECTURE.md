@@ -2,7 +2,7 @@
 
 Status: starter placeholder
 
-Replace this document once the initial stack and system boundaries are chosen. Keep it descriptive of the current system. Proposed feature-specific architecture belongs in an active execution plan until implemented.
+The `$project-kickoff` skill replaces this starter content after the user approves the initial stack and system boundaries in chat. Do not ask the user to fill this file manually. Keep it descriptive of the current system. Proposed feature-specific architecture belongs in an active execution plan until implemented.
 
 ## System context
 
@@ -62,4 +62,3 @@ Document local setup, test layers, fixtures, build and packaging, continuous int
 ## Known constraints and debt
 
 Record material limitations with impact and a decision or follow-up link. Avoid using this section as an unprioritized backlog.
-

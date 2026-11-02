@@ -1,10 +1,11 @@
-# Agentic Programming Starter
+# Agentic Programming Template
 
-This repository is a stack-agnostic starting point for building software with Codex. It turns the main task into an orchestrator, makes planning and validation explicit, and uses specialized subagents only when delegation improves speed or quality.
+This is a public, stack-agnostic template for building software with Codex. It turns the main task into an orchestrator, begins new projects with a conversational interview, makes planning and validation explicit, and uses specialized subagents only when delegation improves speed or quality.
 
 The defaults are intentionally conservative:
 
 - substantial work is planned with the user before implementation;
+- a new project starts with an adaptive chat interview rather than asking the user to complete forms;
 - the main agent owns requirements, decisions, task routing, integration, and the final result;
 - subagents receive bounded task contracts and do not redefine project scope;
 - read-heavy work is parallelized before write-heavy work;
@@ -15,25 +16,29 @@ The defaults are intentionally conservative:
 
 ## Start a new project
 
-1. Copy this repository, including hidden `.codex/` files, into the new project.
-2. Fill in [the product brief](docs/PRODUCT.md) and [architecture overview](docs/ARCHITECTURE.md). It is fine to ask Codex to interview you and draft them.
-3. Update the project commands and repository map in [AGENTS.md](AGENTS.md) after the initial stack is selected.
-4. Review the model and permission defaults in [.codex/config.toml](.codex/config.toml).
-5. Start a new Codex task from the repository root so the project instructions and custom agents are loaded.
-6. Ask for a coherent outcome, for example: `Build the account invitation feature.` The main agent will choose the fast path or the planned workflow defined in [AGENTS.md](AGENTS.md).
+1. Create a repository from this template, or copy it including the hidden `.agents/` and `.codex/` directories.
+2. Start a new Codex task from the repository root so the project instructions, kickoff skill, and custom agents load.
+3. Describe your idea naturally, for example: `I want to build a simple platform for local sports clubs.`
+4. Answer the kickoff questions in chat. You may say `I don't know`, ask for a recommendation, or skip a nonessential question.
+5. Correct or approve the resulting product summary and high-level plan.
+6. Codex writes the product definition, architecture, project commands, and low-level execution plan for you. You do not need to fill in the Markdown templates manually.
+7. Review the model and permission defaults in [.codex/config.toml](.codex/config.toml) before implementation begins.
 
-For a brand-new or ambiguous product, a useful opening request is:
+The kickoff skill should activate automatically for a new project. You can also invoke it explicitly:
 
 ```text
-Interview me to turn this idea into an approved feature brief. Inspect the repository first, ask only material questions, challenge risky assumptions, and do not implement until we agree on the brief and high-level plan.
+Use $project-kickoff to interview me and turn my idea into an approved product brief, architecture, and execution plan.
 ```
+
+The interview asks two to five related questions per round, waits for your answers, summarizes decisions, and adapts the next questions. It does not send a giant questionnaire or begin coding before the approval gates.
 
 ## Workflow
 
 ```text
 request
   -> inspect and classify
-  -> discover requirements
+  -> conversational kickoff interview
+  -> confirm product summary
   -> approve feature brief
   -> approve high-level plan
   -> create low-level task graph
@@ -52,6 +57,7 @@ Small, reversible, well-scoped changes use a fast path and do not require ceremo
 | --- | --- |
 | `AGENTS.md` | Durable operating agreement automatically supplied to Codex |
 | `PLANS.md` | Standard for collaborative briefs and execution plans |
+| `.agents/skills/project-kickoff/` | Adaptive interview workflow for new projects |
 | `.codex/config.toml` | Safe project defaults and multi-agent concurrency limits |
 | `.codex/agents/` | Narrow custom agent definitions and model assignments |
 | `templates/` | Feature brief, execution plan, work contract, handoff, review, and ADR templates |
@@ -85,6 +91,25 @@ python3 scripts/validate_template.py
 
 This checks the required structure, parses all TOML configuration, verifies agent fields and model routing, checks instruction size, and reports broken relative Markdown links.
 
+## Publish as a GitHub template
+
+The repository includes an MIT license, contribution guide, code of conduct, issue forms, pull-request template, and GitHub Actions validation workflow.
+
+Before publishing:
+
+1. Run `make validate-template`.
+2. Review the default models and permissions for the audience you expect.
+3. Replace generic repository descriptions or community links if desired.
+4. Create the public GitHub repository and push the files.
+5. In **Settings > General**, enable **Template repository**.
+6. Enable private vulnerability reporting and appropriate branch protection for the default branch.
+
+Publishing, pushing, changing GitHub settings, or creating remote resources is intentionally not automated by this template.
+
+## Contributing
+
+Public contributions are welcome. See [CONTRIBUTING.md](CONTRIBUTING.md) and [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md). Security vulnerabilities should follow the private reporting guidance in [SECURITY.md](SECURITY.md).
+
 ## Codex behavior notes
 
 - Project `.codex/` configuration is loaded only for a trusted repository.
@@ -93,5 +118,4 @@ This checks the required structure, parses all TOML configuration, verifies agen
 - Organization-managed policies can override project permission or model settings.
 - Subagents improve context isolation and wall-clock time for suitable tasks, but usually consume more total tokens than a comparable single-agent run.
 
-The design follows the current official OpenAI guidance for [Codex best practices](https://learn.chatgpt.com/guides/best-practices), [AGENTS.md](https://learn.chatgpt.com/docs/agent-configuration/agents-md), [subagents](https://learn.chatgpt.com/docs/agent-configuration/subagents), [models](https://learn.chatgpt.com/docs/models), and [worktrees](https://learn.chatgpt.com/docs/environments/git-worktrees).
-
+The design follows the current official OpenAI guidance for [Codex best practices](https://learn.chatgpt.com/guides/best-practices), [AGENTS.md](https://learn.chatgpt.com/docs/agent-configuration/agents-md), [skills](https://learn.chatgpt.com/docs/build-skills), [subagents](https://learn.chatgpt.com/docs/agent-configuration/subagents), [models](https://learn.chatgpt.com/docs/models), and [worktrees](https://learn.chatgpt.com/docs/environments/git-worktrees).

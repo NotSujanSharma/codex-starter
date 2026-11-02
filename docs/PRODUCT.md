@@ -2,7 +2,7 @@
 
 Status: starter placeholder
 
-Replace this document during project discovery. It is the durable product context for agents and contributors; feature-specific decisions belong in approved feature briefs under `plans/active/` or `plans/completed/`.
+The `$project-kickoff` skill replaces this starter content after interviewing the user in chat. Do not ask the user to fill this file manually. It becomes the durable product context for agents and contributors; feature-specific decisions belong in approved feature briefs under `plans/active/` or `plans/completed/`.
 
 ## Product summary
 
@@ -70,4 +70,3 @@ List only unresolved decisions that can materially affect planned work. Assign a
 ## Change log
 
 Record meaningful changes to durable product direction with links to the approving brief or decision record.
-

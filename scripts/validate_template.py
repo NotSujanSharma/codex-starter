@@ -17,8 +17,19 @@ REQUIRED_FILES = {
     "AGENTS.md",
     "PLANS.md",
     "CODE_REVIEW.md",
+    "CODE_OF_CONDUCT.md",
+    "CONTRIBUTING.md",
+    "LICENSE",
     "SECURITY.md",
+    ".agents/skills/project-kickoff/SKILL.md",
+    ".agents/skills/project-kickoff/agents/openai.yaml",
+    ".agents/skills/project-kickoff/references/interview-guide.md",
     ".codex/config.toml",
+    ".github/ISSUE_TEMPLATE/bug_report.yml",
+    ".github/ISSUE_TEMPLATE/config.yml",
+    ".github/ISSUE_TEMPLATE/feature_request.yml",
+    ".github/PULL_REQUEST_TEMPLATE.md",
+    ".github/workflows/validate-template.yml",
     "docs/PRODUCT.md",
     "docs/ARCHITECTURE.md",
     "docs/decisions/README.md",
@@ -168,6 +179,68 @@ def check_agents(errors: list[str]) -> None:
             )
 
 
+def check_kickoff_skill(errors: list[str]) -> None:
+    skill_path = ROOT / ".agents/skills/project-kickoff/SKILL.md"
+    metadata_path = ROOT / ".agents/skills/project-kickoff/agents/openai.yaml"
+    reference_path = (
+        ROOT / ".agents/skills/project-kickoff/references/interview-guide.md"
+    )
+    if not all(path.is_file() for path in (skill_path, metadata_path, reference_path)):
+        return
+
+    skill = skill_path.read_text(encoding="utf-8")
+    if not skill.startswith("---\n"):
+        errors.append("project-kickoff SKILL.md is missing YAML frontmatter")
+    parts = skill.split("---", 2)
+    if len(parts) != 3:
+        errors.append("project-kickoff SKILL.md has malformed YAML frontmatter")
+    else:
+        frontmatter = parts[1]
+        if not re.search(r"(?m)^name:\s*project-kickoff\s*$", frontmatter):
+            errors.append("project-kickoff skill name is missing or incorrect")
+        description = re.search(r"(?m)^description:\s*(.+)$", frontmatter)
+        if description is None or len(description.group(1).strip()) < 40:
+            errors.append("project-kickoff skill needs a discriminating description")
+
+    if "[TODO" in skill or "[TODO" in reference_path.read_text(encoding="utf-8"):
+        errors.append("project-kickoff skill contains unfinished scaffold TODOs")
+    if "references/interview-guide.md" not in skill:
+        errors.append("project-kickoff skill does not route to its interview guide")
+    metadata = metadata_path.read_text(encoding="utf-8")
+    if 'default_prompt: "Use $project-kickoff' not in metadata:
+        errors.append("project-kickoff UI prompt must explicitly invoke $project-kickoff")
+    if "allow_implicit_invocation: true" not in metadata:
+        errors.append("project-kickoff must allow implicit invocation")
+
+
+def check_public_template(errors: list[str]) -> None:
+    license_path = ROOT / "LICENSE"
+    if license_path.is_file() and not license_path.read_text(
+        encoding="utf-8"
+    ).startswith("MIT License"):
+        errors.append("LICENSE must contain the declared MIT license")
+
+    workflow = ROOT / ".github/workflows/validate-template.yml"
+    if workflow.is_file():
+        content = workflow.read_text(encoding="utf-8")
+        for required in (
+            "actions/checkout@v4",
+            "actions/setup-python@v5",
+            "python3 scripts/validate_template.py",
+            "contents: read",
+        ):
+            if required not in content:
+                errors.append(f"public validation workflow is missing: {required}")
+
+    agents_text = (ROOT / "AGENTS.md").read_text(encoding="utf-8")
+    if "$project-kickoff" not in agents_text:
+        errors.append("AGENTS.md must route untouched projects to $project-kickoff")
+
+    readme_text = (ROOT / "README.md").read_text(encoding="utf-8")
+    if "Template repository" not in readme_text:
+        errors.append("README.md must include the public-template publishing step")
+
+
 def markdown_files() -> list[Path]:
     ignored = {".git"}
     return sorted(
@@ -211,6 +284,8 @@ def main() -> int:
     check_required_files(errors)
     check_project_config(errors)
     check_agents(errors)
+    check_kickoff_skill(errors)
+    check_public_template(errors)
     check_markdown_links(errors)
 
     if errors:
@@ -222,11 +297,11 @@ def main() -> int:
     print(
         "Template validation passed: "
         f"{len(REQUIRED_FILES)} required files, "
-        f"{len(EXPECTED_AGENTS)} custom agents, and local Markdown links checked."
+        f"{len(EXPECTED_AGENTS)} custom agents, the kickoff skill, "
+        "public repository files, and local Markdown links checked."
     )
     return 0
 
 
 if __name__ == "__main__":
     raise SystemExit(main())
-

@@ -1,0 +1,7 @@
+interface:
+  display_name: "Project Kickoff Interview"
+  short_description: "Turn a project idea into an approved build plan"
+  default_prompt: "Use $project-kickoff to interview me and turn my idea into an approved project brief and execution plan."
+
+policy:
+  allow_implicit_invocation: true

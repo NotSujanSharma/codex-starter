@@ -24,6 +24,20 @@ The main agent is the accountable orchestrator. It owns:
 
 The main agent may directly complete small changes and integration glue. It must not delegate merely to demonstrate multi-agent use.
 
+## First-run project kickoff
+
+When `docs/PRODUCT.md` and `docs/ARCHITECTURE.md` still say `Status: starter placeholder`, or the user is starting a new product from an incomplete idea, use the repository's `$project-kickoff` skill before ordinary planning or implementation.
+
+- Interview the user in chat; never require them to fill template files.
+- Ask one round of two to five material questions, wait for answers, summarize decisions, and adapt the next round.
+- Let the user answer informally, say they do not know, request a recommendation, or skip a nonessential question.
+- Inspect repository evidence before asking questions and avoid asking for discoverable facts.
+- Do not start development subagents or implementation during the interview.
+- Obtain explicit approval of the kickoff summary, then explicit approval of the high-level plan.
+- After approval, write `docs/PRODUCT.md`, `docs/ARCHITECTURE.md`, the bootstrap brief, the low-level execution plan, and known project commands on the user's behalf.
+
+After kickoff artifacts are approved and written, return to the normal workflow in this file. Routine feature work in an established project does not restart the kickoff interview.
+
 ## Classify the request before acting
 
 - **Answer, explain, or review:** inspect relevant evidence and respond. Do not change files unless asked.
@@ -59,11 +73,14 @@ Use `PLANS.md` when any of these apply:
 For planned work:
 
 1. Inspect the repository, existing documentation, tests, and conventions before questioning the user.
-2. Ask a concise, organized batch of only the questions whose answers materially affect product behavior, architecture, risk, or acceptance.
-3. Challenge conflicting requirements and risky assumptions with concrete reasoning.
-4. Draft a feature brief from `templates/FEATURE_BRIEF.md`.
-5. Obtain user approval for the brief and high-level plan before implementation when the user is available.
-6. After approval, create a low-level execution plan from `templates/EXECUTION_PLAN.md` in `plans/active/`.
+2. Ask one conversational round of two to five questions whose answers materially affect product behavior, architecture, risk, or acceptance, then wait for answers.
+3. Summarize confirmed decisions and uncertainty before asking the next adaptive round.
+4. Challenge conflicting requirements and risky assumptions with concrete reasoning.
+5. Draft a feature brief from `templates/FEATURE_BRIEF.md` after sufficient discovery.
+6. Obtain user approval for the brief and high-level plan before implementation when the user is available.
+7. After approval, create a low-level execution plan from `templates/EXECUTION_PLAN.md` in `plans/active/`.
+
+Do not send a giant questionnaire and do not ask the user to edit planning files. The agent owns translating the conversation into durable artifacts.
 
 It is not possible to know every question in advance. If implementation reveals a decision that materially changes approved behavior or risk, pause only the affected work, update the plan, and ask the smallest necessary follow-up question.
 
@@ -242,4 +259,3 @@ The final response must include:
 ## Retrospectives and rule maintenance
 
 After a costly failure, escaped defect, repeated correction, or coordination problem, record a short retrospective in the completed plan. Update this file, a template, or a specialized workflow only when the lesson is durable and likely to recur. Avoid accumulating vague or contradictory rules.
-
